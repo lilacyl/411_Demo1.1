@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    </p>{{ "stock page" }}</p>
+    <form method = "post" action ="/insertStock/">
+        {% csrf_token %}
+        <label for="insertStockid">InsertStock:</label><br>
+        <input type="text" id="insertStockid" name="insertStockid"><br>
+        <input type="text" id="insertStockName" name="insertStockName"><br>
+        <input type="text" id="insertStockGR" name="insertStockGR"><br>
+        <input type="submit" name = "insertbutton" onclick=" alert('Congrats! inserted!')" value="insertStock">
+    </form>
+
+    <form method = "post" action ="/deleteStock/">
+        {% csrf_token %}
+        <label for="deleteStock">Delete:</label><br>
+        <input type="text" id="deleteStock" name="deleteStock"><br>
+        <input type="submit" name = "deletebutton" onclick=" alert('Congrats! deleted!')" value="deleteStock">
+    </form>
+
+
+
+
+    </p>{{ view_stock|safe }}</p>
+
+
+    <img src = 'https://specials-images.forbesimg.com/imageserve/1203497834/960x0.jpg?fit=scale'>
+
+</html>
