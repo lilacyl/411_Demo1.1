@@ -11,7 +11,7 @@
 <!--        <input type="submit" name = "insertbutton" onclick=" alert('Congrats! inserted!')" value="insertStock">-->
 <!--    </form>-->
 
-    </p>{{ "Search via company name" }}</p>
+    <br>{{ "Search via company name" }}<br>
     <form method = "post" action ="/searchStockId/">
         {% csrf_token %}
         <label for="search_Stockid">Search for stock id:</label><br>
@@ -26,9 +26,10 @@
         <input type="submit" name = "searchstockpricebutton"  value="search stock price">
     </form>
 
+    <br>{{ "Search via stock_id" }}<br>
     <form method = "post" action ="/searchStockIdViaSFI/">
         {% csrf_token %}
-        <label for="search_StockIdViaSFI">Search company name via stock id:</label><br>
+        <label for="search_StockIdViaSFI">Search for SFI data via stock id:</label><br>
         <input type="text" id="search_StockIdViaSFI" name="search_StockIdViaSFI"><br>
         <input type="submit" name = "searchstockid_via_SFIbutton"  value="search comapny name">
     </form>

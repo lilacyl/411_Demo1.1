@@ -167,7 +167,7 @@ def searchStockIdViaSFI(request):
         # }
 
 
-    return HttpResponse(results[0][2])
+    return HttpResponse(results)
 
 # delete
 def deleteStock(request):
