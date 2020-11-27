@@ -16,6 +16,8 @@ urlpatterns = [
     path('viewStockDatabase/', views.viewStockDatabase),
     path('insertStock/', views.insertStock),
     path('deleteStock/', views.deleteStock),
+    path('searchStockId/', views.searchStockId),
+    path('searchStockPrice/', views.searchStockPrice),
 
     path('viewSFIDatabase/', views.viewSFIDatabase),
     path('insertSFI/', views.insertSFI),
@@ -23,8 +25,10 @@ urlpatterns = [
     path('updateSFI/', views.updateSFI),
     path('searchSFI/', views.searchSFI),
     path('viewSFI/', views.runSFI),
+    path('searchStockIdViaSFI/', views.searchStockIdViaSFI),
 
     path('viewFPDatabase/', views.viewFPDatabase),
     path('insertFP/', views.insertFP),
+    path('searchFP/', views.searchFP),
     path('viewFP/', views.runFP),
 ]

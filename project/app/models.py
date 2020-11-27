@@ -10,13 +10,17 @@ class Test(models.Model):
 class StockInfo(models.Model):
     stock_id = models.IntegerField(default=0)
     company_name = models.CharField(max_length=50)
-    growth_rate = models.IntegerField(default=0)
+    price = models.DecimalField(default=0, max_digits=100, decimal_places=50)
 
     def __str__(self):
         return self.company_name
 
 class FinancialProduct(models.Model):
     fp_id = models.IntegerField(default=0)
+    product_name = models.CharField(default= "unnamed", max_length=50)
+
+    def __str__(self):
+        return self.product_name
 
 class StructuredFinancialInvestment(models.Model):
     fp_id = models.ForeignKey(FinancialProduct, null = True, on_delete=models.CASCADE)
