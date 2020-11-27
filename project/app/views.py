@@ -132,8 +132,14 @@ def searchStockId(request):
 
     searchstock = request.POST.get('search_Stockid')
 
+    flag = True
+
     for p in StockInfo.objects.raw('SELECT * FROM app_stockinfo where company_name = %s', [searchstock]):
+        flag = False
         tmp = p
+
+    if flag == True:
+        return HttpResponse("The name is not found in data base.")
 
     return HttpResponse(tmp.stock_id)
 
@@ -142,8 +148,14 @@ def searchStockPrice(request):
 
     searchstockprice = request.POST.get('search_Stockprice')
 
+    flag = True
+
     for p in StockInfo.objects.raw('SELECT * FROM app_stockinfo where company_name = %s', [searchstockprice]):
+        flag = False
         tmp = p
+
+    if flag == True:
+        return HttpResponse("The price is not found in data base.")
 
     return HttpResponse(tmp.price)
 
@@ -183,7 +195,7 @@ def deleteStock(request):
 
 #view stock database
 def viewStockDatabase(request):
-    tmp = StockInfo.objects.raw('SELECT * FROM app_stockinfo')
+    tmp = StockInfo.objects.raw('SELECT DISTINCT * FROM app_stockinfo')
     return HttpResponse(tmp)
 
 
@@ -309,3 +321,23 @@ def runFP(request):
 
     view_SFI = "<a href='http://127.0.0.1:8000/viewSFI/'>SFI page</a>"
     return render(request, "financial_product.html", {"view_FP": view_FP, "home_page": home_page, "view_SFI": view_SFI})
+
+
+
+## Carol add## Carol add## Carol add## Carol add## Carol add## Carol add## Carol add
+def viewdate(request):
+    searchDate = request.POST.get('search_date')
+    searchName = request.POST.get('search_name')
+
+    flag = True
+
+    for p in StockInfo.objects.raw('SELECT * FROM app_stockinfo where date = "2016-03-11" AND company_name = %s', [searchName]):
+        flag = False
+        tmp = p
+
+    if flag == True:
+        return HttpResponse("The date is not found in data base.")
+
+
+    return HttpResponse(p.price)
+## Carol add## Carol add## Carol add## Carol add## Carol add## Carol add## Carol add

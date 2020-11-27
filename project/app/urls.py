@@ -31,4 +31,7 @@ urlpatterns = [
     path('insertFP/', views.insertFP),
     path('searchFP/', views.searchFP),
     path('viewFP/', views.runFP),
+
+
+    path('searchDate/', views.viewdate),
 ]

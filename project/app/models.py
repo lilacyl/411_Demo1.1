@@ -10,6 +10,7 @@ class Test(models.Model):
 class StockInfo(models.Model):
     stock_id = models.IntegerField(default=0)
     company_name = models.CharField(max_length=50)
+    date = models.CharField(default= "unknown", max_length=50)
     price = models.DecimalField(default=0, max_digits=100, decimal_places=50)
 
     def __str__(self):
@@ -23,12 +24,12 @@ class FinancialProduct(models.Model):
         return self.product_name
 
 class StructuredFinancialInvestment(models.Model):
-    fp_id = models.ForeignKey(FinancialProduct, null = True, on_delete=models.CASCADE)
+    fp_id = models.ForeignKey(FinancialProduct, null=True, on_delete=models.CASCADE)
     stock_id = models.ForeignKey(StockInfo, null = True, on_delete=models.CASCADE)
     SFI_id = models.IntegerField(default=0)
-    Knock_in = models.IntegerField(default=0)
-    Knock_out = models.IntegerField(default=0)
-    put_strike = models.IntegerField(default=0)
+    Knock_in = models.DecimalField(default=0, max_digits=100, decimal_places=50)
+    Knock_out = models.DecimalField(default=0, max_digits=100, decimal_places=50)
+    put_strike = models.DecimalField(default=0, max_digits=100, decimal_places=50)
 
 
 

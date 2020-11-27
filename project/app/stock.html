@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 
 <html lang="en">
-    </p>{{ "stock page" }}</p>
+    <h1>{{ "Stock page" }}</h1>
+    <hr>
 <!--    <form method = "post" action ="/insertStock/">-->
 <!--        {% csrf_token %}-->
 <!--        <label for="insertStockid">InsertStock:</label><br>-->
@@ -11,28 +12,36 @@
 <!--        <input type="submit" name = "insertbutton" onclick=" alert('Congrats! inserted!')" value="insertStock">-->
 <!--    </form>-->
 
-    <br>{{ "Search via company name" }}<br>
-    <form method = "post" action ="/searchStockId/">
-        {% csrf_token %}
-        <label for="search_Stockid">Search for stock id:</label><br>
-        <input type="text" id="search_Stockid" name="search_Stockid"><br>
-        <input type="submit" name = "searchstockidbutton"  value="search stock id">
-    </form>
+    <b>{{ "Search via company name" }}</b>
+    <br>
+        <form method = "post" action ="/searchStockId/">
+            {% csrf_token %}
+            <label for="search_Stockid">Search for stock id:</label><br>
+            <input type="text" id="search_Stockid" name="search_Stockid"><br>
+            <input type="submit" name = "searchstockidbutton"  value="search stock id">
+        </form>
+    <br>
+
 
     <form method = "post" action ="/searchStockPrice/">
         {% csrf_token %}
         <label for="search_Stockprice">Search for stock price:</label><br>
         <input type="text" id="search_Stockprice" name="search_Stockprice"><br>
+
         <input type="submit" name = "searchstockpricebutton"  value="search stock price">
     </form>
+    <hr>
 
-    <br>{{ "Search via stock_id" }}<br>
+    <b>{{ "Search via stock_id" }}</b>
+    <br>
     <form method = "post" action ="/searchStockIdViaSFI/">
         {% csrf_token %}
         <label for="search_StockIdViaSFI">Search for SFI data via stock id:</label><br>
         <input type="text" id="search_StockIdViaSFI" name="search_StockIdViaSFI"><br>
         <input type="submit" name = "searchstockid_via_SFIbutton"  value="search comapny name">
     </form>
+    <hr>
+
 
 
     </p>{{ view_stock|safe }}</p>
