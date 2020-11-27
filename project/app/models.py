@@ -19,8 +19,8 @@ class FinancialProduct(models.Model):
     fp_id = models.IntegerField(default=0)
 
 class StructuredFinancialInvestment(models.Model):
-    fp_id = models.ForeignKey(FinancialProduct, on_delete=models.CASCADE, verbose_name="the financial product id")
-    stock_id = models.ForeignKey(StockInfo, on_delete=models.CASCADE, verbose_name="the stock id")
+    fp_id = models.ForeignKey(FinancialProduct, null = True, on_delete=models.CASCADE)
+    stock_id = models.ForeignKey(StockInfo, null = True, on_delete=models.CASCADE)
     SFI_id = models.IntegerField(default=0)
     Knock_in = models.IntegerField(default=0)
     Knock_out = models.IntegerField(default=0)

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    </p>{{ "Financial Product Page" }}</p>
+    <form method = "post" action ="/insertFP/">
+        {% csrf_token %}
+        <label for="insert_fp_id">Insert financial product id:</label><br>
+        <input type="text" id="insert_fp_id" name="insert_fp_id"><br>
+
+        <input type="submit" name = "insertFPbutton" onclick=" alert('Congrats! inserted!')" value="insert FP">
+    </form>
+
+<!--    <form method = "post" action ="/deleteStock/">-->
+<!--        {% csrf_token %}-->
+<!--        <label for="deleteStock">Delete:</label><br>-->
+<!--        <input type="text" id="deleteStock" name="deleteStock"><br>-->
+<!--        <input type="submit" name = "deletebutton" onclick=" alert('Congrats! deleted!')" value="deleteStock">-->
+<!--    </form>-->
+
+
+
+    </p>{{ view_FP|safe }}</p>
+
+
+    <img src = 'https://specials-images.forbesimg.com/imageserve/1203497834/960x0.jpg?fit=scale'>
+
+</html>

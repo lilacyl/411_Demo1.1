@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponse
-from .models import Test, StockInfo
+from .models import Test, StockInfo, FinancialProduct, StructuredFinancialInvestment
 
 from django.db import connection
 from django.shortcuts import redirect
@@ -11,14 +11,16 @@ from django.shortcuts import redirect
 def home(request):
     views_database = "<a href='http://127.0.0.1:8000/database/'>database</a>"      #link that go to viewstock page
     view_Stock = "<a href='http://127.0.0.1:8000/viewStock/'>viewStock</a>"  # link that go to database page
-    return render(request, "home.html", {"view_Stock": view_Stock, "views_database": views_database})
+    view_FP = "<a href='http://127.0.0.1:8000/viewFP/'>viewFP</a>"  # link that go to database page
+    view_SFI = "<a href='http://127.0.0.1:8000/viewSFI/'>viewSFI</a>"
+    return render(request, "home.html", {"view_Stock": view_Stock, "views_database": views_database,"view_FP": view_FP, "view_SFI": view_SFI})
 
 
+##################################################################################################################
 
 # print names
 def get_all_user_name(request):
     name = request.path
-    # print(name)
     tempt_test = Test.objects.raw('SELECT * FROM app_test')
     return HttpResponse(tempt_test)
 
@@ -37,7 +39,6 @@ def runoob(request):
 
     # return render(request, "test.html", {"views_insert": views_insert, "views_update": views_update, "views_delete": views_delete, "views_view": views_view})
     return render(request, "test.html", {"views_view": views_view})
-
 
 
 # view
@@ -99,7 +100,7 @@ def delete(request):
     return render(request, "test.html", {"views_view": views_view})
 
 ###########################################################################################################################################
-
+#this is dedicated for the stock page
 def runStock(request):
     view_stock = "<a href='http://127.0.0.1:8000/viewStockDatabase/'>viewStockDatabase</a>"           #link that go to viewStockDatabase page
 
@@ -136,3 +137,110 @@ def deleteStock(request):
 def viewStockDatabase(request):
     tmp = StockInfo.objects.raw('SELECT * FROM app_stockinfo')
     return HttpResponse(tmp)
+
+
+###################################################################################################################################################################################
+#this is dedicated for the structured financial investment page
+
+def insertSFI(request):
+    if request.method == 'POST' and request.POST:
+        insert1 = request.POST.get('insert_fp_id')
+        insert2 = request.POST.get('insert_stock_id')
+        insert3 = request.POST.get('insert_SFI_id')
+        insert4 = request.POST.get('insert_Knock_in')
+        insert5 = request.POST.get('insert_Knock_out')
+        insert6 = request.POST.get('insert_put_strike')
+
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO app_structuredfinancialinvestment (fp_id_id, stock_id_id, SFI_id, Knock_in, Knock_out, put_strike) VALUES (%s,%s, %s,%s,%s,%s)",
+                [insert1, insert2,insert3,insert4, insert5,insert6])
+
+    view_SFI = "<a href='http://127.0.0.1:8000/viewSFIDatabase/'>viewSFIDatabase</a>"
+    return render(request, "StructuredFinancialInvestment.html", {"view_SFI": view_SFI})
+
+
+def viewSFIDatabase(request):
+    tmp = StructuredFinancialInvestment.objects.raw('SELECT * FROM app_structuredfinancialinvestment')
+    return HttpResponse(tmp)
+
+# delete
+def deleteSFI(request):
+    if request.method == 'POST' and request.POST:
+        delete1 = request.POST.get('deleteSFI')
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "DELETE FROM app_structuredfinancialinvestment WHERE SFI_id = %s",
+                [delete1])
+
+    view_SFI = "<a href='http://127.0.0.1:8000/viewSFIDatabase/'>viewSFIDatabase</a>"
+    return render(request, "StructuredFinancialInvestment.html", {"view_SFI": view_SFI})
+
+
+# update
+def updateSFI(request):
+    if request.method == 'POST' and request.POST:
+        update_f = request.POST.get('update_SFI_from')
+        update_t = request.POST.get('update_SFI_to')
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "UPDATE app_structuredfinancialinvestment SET SFI_id = %s where SFI_id = %s",
+                [update_t, update_f])
+
+
+    view_SFI = "<a href='http://127.0.0.1:8000/viewSFIDatabase/'>viewSFIDatabase</a>"
+    return render(request, "StructuredFinancialInvestment.html", {"view_SFI": view_SFI})
+
+#search
+def searchSFI(request):
+    # if request.method == 'POST' and request.POST:
+    #     search1 = request.POST.get('')
+    #
+    #     with connection.cursor() as cursor:
+    #         cursor.execute(
+    #             "SELECT * FROM app_structuredfinancialinvestment where SFI_id = %s",
+    #             [search1])
+
+    search1 = request.POST.get('search_SFI')
+
+    for p in StructuredFinancialInvestment.objects.raw('SELECT * FROM app_structuredfinancialinvestment where SFI_id = %s', [search1]):
+        tmp = p
+
+
+    return HttpResponse(tmp.Knock_in)
+
+    # view_SFI = "<a href='http://127.0.0.1:8000/searchSFI/'>searchSFI</a>"
+    # return render(request, "StructuredFinancialInvestment.html", {"view_SFI": view_SFI})
+
+
+def runSFI(request):
+    view_SFI = "<a href='http://127.0.0.1:8000/viewSFIDatabase/'>viewSFIDatabase</a>"
+    return render(request, "StructuredFinancialInvestment.html", {"view_SFI": view_SFI})
+
+
+
+######################################################################################################################
+def insertFP(request):
+    if request.method == 'POST' and request.POST:
+        insert1 = request.POST.get('insert_fp_id')
+
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO app_financialproduct (fp_id) VALUES (%s)",
+                [insert1])
+
+    view_FP = "<a href='http://127.0.0.1:8000/viewFPDatabase/'>viewFPDatabase</a>"           #link that go to viewStockDatabase page
+    return render(request, "financial_product.html", {"view_FP": view_FP})
+
+
+def viewFPDatabase(request):
+    for p in FinancialProduct.objects.raw('SELECT * FROM app_financialproduct'):
+        tmp = p.fp_id
+    #
+    # tmp = FinancialProduct.objects.raw('SELECT * FROM app_financialproduct')
+
+    return HttpResponse(tmp)
+
+def runFP(request):
+    view_FP = "<a href='http://127.0.0.1:8000/viewFPDatabase/'>viewFPDatabase</a>"
+    return render(request, "financial_product.html", {"view_FP": view_FP})
