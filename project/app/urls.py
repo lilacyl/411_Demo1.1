@@ -32,9 +32,6 @@ urlpatterns = [
     path('searchFP/', views.searchFP),
     path('viewFP/', views.runFP),
 
-
-    path('searchDate/', views.viewdate),
-
     # MongoDB
     path('all_users/', views.all_users),
     path('add_users_page/', views.run_add_user),

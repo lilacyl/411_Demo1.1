@@ -19,8 +19,11 @@ def home(request):
     view_Stock = "<a href='http://127.0.0.1:8000/viewStock/'>Stock page</a>"  # link that go to database page
     view_FP = "<a href='http://127.0.0.1:8000/viewFP/'>FP page</a>"  # link that go to database page
     view_SFI = "<a href='http://127.0.0.1:8000/viewSFI/'>SFI page</a>"
-
-    return render(request, "home.html", {"view_Stock": view_Stock,"view_FP": view_FP, "view_SFI": view_SFI})
+    view_User = "<a href='http://127.0.0.1:8000/add_users_page/'>User Login page</a>"
+    view_Clicks = "<a href='http://127.0.0.1:8000/all_users/'>Company Popularity page</a>"
+    return render(request, "home.html", {"view_Stock": view_Stock,"view_FP": view_FP,
+                                         "view_SFI": view_SFI, "view_User": view_User,
+                                         "view_Clicks":view_Clicks})
 
 
 ##################################################################################################################
@@ -145,6 +148,9 @@ def searchStockId(request):
         flag = False
         tmp = p
 
+    click = UserClicks(user_id=current_user, company=p.company_name)
+    click.save(using='mongo')
+
     if flag == True:
         return HttpResponse("The name is not found in data base.")
 
@@ -160,6 +166,9 @@ def searchStockPrice(request):
     for p in StockInfo.objects.raw('SELECT * FROM app_stockinfo where company_name = %s', [searchstockprice]):
         flag = False
         tmp = p
+
+    click = UserClicks(user_id=current_user, company=p.company_name)
+    click.save(using='mongo')
 
     if flag == True:
         return HttpResponse("The price is not found in data base.")
@@ -185,6 +194,10 @@ def searchStockIdViaSFI(request):
         #     'jjj': results[0][1]
         # }
 
+        company_name = results[0][2]
+
+        click = UserClicks(user_id=current_user, company=company_name)
+        click.save(using='mongo')
 
     return HttpResponse(results)
 
@@ -272,7 +285,10 @@ def searchSFI(request):
 
     for p in StructuredFinancialInvestment.objects.raw('SELECT * FROM app_structuredfinancialinvestment where SFI_id = %s', [search1]):
         tmp = p
+        company_name = p.stock_id
 
+    click = UserClicks(user_id=current_user, company=company_name)
+    click.save(using='mongo')
 
     return HttpResponse(tmp.Knock_in)
 
@@ -356,17 +372,22 @@ MongoDB Section Pages & Functions
 
 
 def all_users(request):
-    users = Users.object.using('mongo').all()
-    stringval = "The following are all the users:<br>"
+    users = UserClicks.object.using('mongo').all()
+    stringval = "The following are all the company searched made by our users:<br>"
     count = 0
     for u in users:
-        stringval += str(count) + ":" + u.use_name + "<br>"
+        count = count + 1
+        stringval += str(count) + ":" + u.company + "<br>"
     return HttpResponse(stringval)
 
 
 def run_add_user(request):
     view_stock = "<a href='http://127.0.0.1:8000/viewStockDatabase/'>viewStockDatabase</a>"  # link that go to viewStockDatabase page
-    return render(request, "user_login.html", {"view_stock": view_stock})
+    view_FP = "<a href='http://127.0.0.1:8000/viewFPDatabase/'>view FP Database</a>"
+    home_page = "<a href='http://127.0.0.1:8000/'>home page</a>"
+    view_SFI = "<a href='http://127.0.0.1:8000/viewSFI/'>SFI page</a>"
+    return render(request, "user_login.html", {"view_stock": view_stock, "view_FP":view_FP,
+                                               "home_page":home_page,"view_SFI":view_SFI})
 
 
 @csrf_exempt
@@ -393,6 +414,10 @@ def loginUser(request):
 
     if user.password == password:
         result = "welcome " + use_name
+        global current_user
         current_user = use_name
 
     return HttpResponse(result)
+
+
+

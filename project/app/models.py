@@ -46,7 +46,7 @@ class Users(mongo_models.Model):
 
 class UserClicks(mongo_models.Model):
     _id = mongo_models.ObjectIdField()
-    stock_id = mongo_models.IntegerField(default=0)
+    company = mongo_models.CharField(max_length=255, default='unknown')
     user_id = mongo_models.CharField(max_length=255)
     object = mongo_models.DjongoManager()
 
