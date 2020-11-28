@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    </p>{{ "USER LOG IN" }}</p>
+    <form method = "post" action ="/insertUser/">
+        {% csrf_token %}
+        <label for="username">Register:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <input type="text" id="password" name="password"><br>
+        <input type="submit" name = "insertbutton" onclick=" alert('Congrats! You are registered!')" value="Register user">
+    </form>
+
+    <form method = "post" action ="/loginUser/">
+        {% csrf_token %}
+        <label for="username">Login:</label><br>
+        <input type="text" id="username_login" name="username_login"><br>
+        <input type="text" id="password_login" name="password_login"><br>
+        <input type="submit" name = "insertbutton" onclick=" alert('Logging in')" value="Login">
+    </form>
+
+
+
+
+    </p>{{ view_stock|safe }}</p>
+
+
+    <img src = 'https://specials-images.forbesimg.com/imageserve/1203497834/960x0.jpg?fit=scale'>
+
+</html>

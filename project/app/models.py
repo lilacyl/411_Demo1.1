@@ -1,5 +1,5 @@
 from django.db import models
-
+from djongo import models as mongo_models
 
 class Test(models.Model):
     name = models.CharField(max_length=20)
@@ -30,6 +30,25 @@ class StructuredFinancialInvestment(models.Model):
     Knock_in = models.DecimalField(default=0, max_digits=100, decimal_places=50)
     Knock_out = models.DecimalField(default=0, max_digits=100, decimal_places=50)
     put_strike = models.DecimalField(default=0, max_digits=100, decimal_places=50)
+
+
+
+"""
+MongoDB for the User Table
+"""
+
+
+class Users(mongo_models.Model):
+    use_name = mongo_models.CharField(max_length=255, primary_key=True)
+    password = mongo_models.CharField(max_length=255)
+    object = mongo_models.DjongoManager()
+
+
+class UserClicks(mongo_models.Model):
+    _id = mongo_models.ObjectIdField()
+    stock_id = mongo_models.IntegerField(default=0)
+    user_id = mongo_models.CharField(max_length=255)
+    object = mongo_models.DjongoManager()
 
 
 

@@ -2,17 +2,24 @@ from django.shortcuts import render
 from django.template import loader
 
 # Create your views here.
-from django.http import HttpResponse
-from .models import Test, StockInfo, FinancialProduct, StructuredFinancialInvestment
+from django.http import HttpResponse, Http404
+from django.views.decorators.csrf import csrf_exempt
 
+from .models import Test, StockInfo, FinancialProduct, StructuredFinancialInvestment
+from .models import Users,UserClicks
 from django.db import connection
 from django.shortcuts import redirect
 
+"""
+GLOBAL VARIABLES
+"""
+current_user = ""
 
 def home(request):
     view_Stock = "<a href='http://127.0.0.1:8000/viewStock/'>Stock page</a>"  # link that go to database page
     view_FP = "<a href='http://127.0.0.1:8000/viewFP/'>FP page</a>"  # link that go to database page
     view_SFI = "<a href='http://127.0.0.1:8000/viewSFI/'>SFI page</a>"
+
     return render(request, "home.html", {"view_Stock": view_Stock,"view_FP": view_FP, "view_SFI": view_SFI})
 
 
@@ -341,3 +348,51 @@ def viewdate(request):
 
     return HttpResponse(p.price)
 ## Carol add## Carol add## Carol add## Carol add## Carol add## Carol add## Carol add
+
+
+"""
+MongoDB Section Pages & Functions
+"""
+
+
+def all_users(request):
+    users = Users.object.using('mongo').all()
+    stringval = "The following are all the users:<br>"
+    count = 0
+    for u in users:
+        stringval += str(count) + ":" + u.use_name + "<br>"
+    return HttpResponse(stringval)
+
+
+def run_add_user(request):
+    view_stock = "<a href='http://127.0.0.1:8000/viewStockDatabase/'>viewStockDatabase</a>"  # link that go to viewStockDatabase page
+    return render(request, "user_login.html", {"view_stock": view_stock})
+
+
+@csrf_exempt
+def insertUser(request):
+    if request.method == 'POST' and request.POST:
+        use_name = request.POST.get('username')
+        password = request.POST.get('password')
+        user = Users(use_name=use_name, password=password)
+        user.save(using='mongo')
+
+    return HttpResponse("Inserted User")
+
+
+def loginUser(request):
+    result = "could not log in"
+
+    use_name = request.POST.get('username_login')
+    password = request.POST.get('password_login')
+
+    try:
+        user = Users.object.using('mongo').get(use_name=use_name)
+    except Users.DoesNotExist:
+        raise Http404("User has not register")
+
+    if user.password == password:
+        result = "welcome " + use_name
+        current_user = use_name
+
+    return HttpResponse(result)
