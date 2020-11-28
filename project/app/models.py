@@ -1,11 +1,14 @@
 from django.db import models
 
+from djongo import models as mongo_models
+
 
 class Test(models.Model):
     name = models.CharField(max_length=20)
 
     def __str__(self):
         return self.name
+
 
 class StockInfo(models.Model):
     stock_id = models.IntegerField(default=0)
@@ -15,8 +18,10 @@ class StockInfo(models.Model):
     def __str__(self):
         return self.company_name
 
+
 class FinancialProduct(models.Model):
     fp_id = models.IntegerField(default=0)
+
 
 class StructuredFinancialInvestment(models.Model):
     fp_id = models.ForeignKey(FinancialProduct, on_delete=models.CASCADE, verbose_name="the financial product id")
@@ -27,6 +32,19 @@ class StructuredFinancialInvestment(models.Model):
     put_strike = models.IntegerField(default=0)
 
 
+"""
+MongoDB for the User Table
+"""
 
 
+class Users(mongo_models.Model):
+    use_name = mongo_models.CharField(max_length=255, primary_key=True)
+    password = mongo_models.CharField(max_length=255)
+    object = mongo_models.DjongoManager()
 
+
+class UserClicks(mongo_models.Model):
+    _id = mongo_models.ObjectIdField()
+    stock_id = mongo_models.IntegerField(default=0)
+    user_id = mongo_models.CharField(max_length=255)
+    object = mongo_models.DjongoManager()
