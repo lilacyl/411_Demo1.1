@@ -22,13 +22,11 @@
     <list default="true" id="588b81e3-85a5-4316-985d-b67ba538a245" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/app/StructuredFinancialInvestment.html" beforeDir="false" afterPath="$PROJECT_DIR$/project/app/StructuredFinancialInvestment.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/app/financial_product.html" beforeDir="false" afterPath="$PROJECT_DIR$/project/app/financial_product.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/app/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/project/app/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/app/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/app/stock.html" beforeDir="false" afterPath="$PROJECT_DIR$/project/app/stock.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/app/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/app/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/project/app/test.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/app/user_login.html" beforeDir="false" afterPath="$PROJECT_DIR$/project/app/user_login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/project/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
