@@ -353,25 +353,6 @@ def runFP(request):
     return render(request, "financial_product.html", {"view_FP": view_FP, "home_page": home_page, "view_SFI": view_SFI})
 
 
-## Carol add## Carol add## Carol add## Carol add## Carol add## Carol add## Carol add
-def viewdate(request):
-    searchDate = request.POST.get('search_date')
-    searchName = request.POST.get('search_name')
-
-    flag = True
-
-    for p in StockInfo.objects.raw('SELECT * FROM app_stockinfo where date = "2016-03-11" AND company_name = %s',
-                                   [searchName]):
-        flag = False
-        tmp = p
-
-    if flag == True:
-        return HttpResponse("The date is not found in data base.")
-
-    return HttpResponse(p.price)
-
-
-## Carol add## Carol add## Carol add## Carol add## Carol add## Carol add## Carol add
 
 
 """
