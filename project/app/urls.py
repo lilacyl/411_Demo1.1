@@ -1,4 +1,5 @@
 from django.urls import path
+from . import adv1
 
 from . import views
 
@@ -40,4 +41,9 @@ urlpatterns = [
     path('userSaves/', views.userSaves),
     path('mySaves/', views.mySaves),
     path('logout/', views.logout),
+
+    # Advance Function
+    path('ad1/', views.ad1),
+    path('ad1_page/', views.ad1_page),
+
 ]

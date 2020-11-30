@@ -8,7 +8,9 @@
 </head>
 <html lang="en">
 <center>
-    </p>{{ "Structured Financial Investment Page" }}</p>
+    <h1>{{ "Structured Financial Investment Page" }}</h1>
+
+    <hr>
     <form method = "post" action ="/insertSFI/">
         {% csrf_token %}
         <label for="insert_fp_id">Insert financial product id:</label><br>
@@ -50,7 +52,7 @@
 
     <form method = "post" action ="/searchSFI/">
         {% csrf_token %}
-        <label for="search_SFI">Search different prices via SFI id:</label><br>
+        <label for="search_SFI">Search different prices via stock id:</label><br>
         <input type="text" id="search_SFI" name="search_SFI"><br>
         <input type="submit" name = "searchSFIbutton"  value="search SFI">
     </form>

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.template import loader
-
+from . import adv1
 # Create your views here.
 from django.http import HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
@@ -9,6 +9,7 @@ from .models import Test, StockInfo, FinancialProduct, StructuredFinancialInvest
 from .models import Users, UserClicks, UserSaves
 from django.db import connection
 from django.shortcuts import redirect
+import numpy as np
 
 """
 GLOBAL VARIABLES
@@ -22,9 +23,10 @@ def home(request):
     view_SFI = "<a href='http://127.0.0.1:8000/viewSFI/'>SFI page</a>"
     view_User = "<a href='http://127.0.0.1:8000/add_users_page/'>User Login page</a>"
     view_Clicks = "<a href='http://127.0.0.1:8000/all_users/'>Company Popularity page</a>"
+    view_Predictions = "<a href='http://127.0.0.1:8000/ad1_page/'>Prediction page</a>"
     return render(request, "home.html", {"view_Stock": view_Stock, "view_FP": view_FP,
                                          "view_SFI": view_SFI, "view_User": view_User,
-                                         "view_Clicks": view_Clicks})
+                                         "view_Clicks": view_Clicks, "view_Predictions": view_Predictions})
 
 
 ##################################################################################################################
@@ -394,9 +396,9 @@ def run_add_user(request):
     view_SFI = "<a href='http://127.0.0.1:8000/viewSFI/'>SFI page</a>"
     view_saved = "<a href='http://127.0.0.1:8000/mySaves/'>My Saved companies Page</a>"
     log_out = "<a href='http://127.0.0.1:8000/logout/'>Log Out</a>"
-    return render(request, "user_login.html", {"view_stock": view_stock, "view_FP": view_FP,
-                                               "home_page": home_page, "view_SFI": view_SFI,
-                                               "view_saved": view_saved, "log_out": log_out})
+    return render("user_login.html", {"view_stock": view_stock, "view_FP": view_FP,
+                                      "home_page": home_page, "view_SFI": view_SFI,
+                                      "view_saved": view_saved, "log_out": log_out})
 
 
 @csrf_exempt
@@ -458,3 +460,33 @@ def logout(request):
     global current_user
     current_user = ""
     return HttpResponse("You have been logged out")
+
+
+"""
+Advance function 1
+"""
+
+
+def ad1(request):
+    price_arr = np.empty(0)
+    year_arr = np.empty(0)
+    flag = True
+    seach_year = request.POST.get('seach_year')
+    seach_company_name = request.POST.get('seach_company_name')
+
+    for p in StockInfo.objects.raw('SELECT * FROM app_stockinfo where company_name = %s', [seach_company_name]):
+        flag = False
+        price_arr = np.append(price_arr, float(p.price))
+        year_arr = np.append(year_arr, int(p.date[:3]))
+
+    if flag == True:
+        return HttpResponse("The date is not found in data base.")
+    print("thisdbflrbafafe")
+    print(type(p.price))
+    result = adv1.price_prediction_model_via_linear_least_square(price_arr, year_arr, seach_year)
+    return HttpResponse(result)
+
+
+def ad1_page(request):
+    home_page = "<a href='http://127.0.0.1:8000/'>home page</a>"
+    return render(request, "adv1.html", {"home_page": home_page})
