@@ -12,4 +12,6 @@ class Router:
             return db == 'mongo'
         if app_label == 'UserClicks':
             return db == 'mongo'
+        if app_label == 'UserSaves':
+            return db == 'mongo'
         return None

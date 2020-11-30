@@ -37,4 +37,7 @@ urlpatterns = [
     path('add_users_page/', views.run_add_user),
     path('insertUser/', views.insertUser),
     path('loginUser/', views.loginUser),
+    path('userSaves/', views.userSaves),
+    path('mySaves/', views.mySaves),
+    path('logout/', views.logout),
 ]

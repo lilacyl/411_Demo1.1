@@ -51,6 +51,12 @@ class UserClicks(mongo_models.Model):
     object = mongo_models.DjongoManager()
 
 
+class UserSaves(mongo_models.Model):
+    _id = mongo_models.ObjectIdField()
+    company = mongo_models.CharField(max_length=255, default='unknown')
+    user_id = mongo_models.CharField(max_length=255)
+    object = mongo_models.DjongoManager()
+
 
 
 

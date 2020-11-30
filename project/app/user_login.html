@@ -25,6 +25,17 @@
         <input type="submit" name = "insertbutton" onclick=" alert('Logging in')" value="Login">
     </form>
 
+    <form method = "post" action ="/userSaves/">
+        {% csrf_token %}
+        <label for="username">Favorite Stock:</label><br>
+        <input type="text" id="company" name="company"><br>
+        <input type="submit" name = "insertbutton" onclick=" alert('Saving Company')" value="Saved">
+    </form>
+
+
+    </p>{{ view_saved|safe }}</p>
+
+    </p>{{ log_out|safe }}</p>
 
     </p>{{ view_stock|safe }}</p>
 
