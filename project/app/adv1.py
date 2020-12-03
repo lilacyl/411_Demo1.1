@@ -2,20 +2,7 @@ import pandas as pd
 from sklearn import linear_model
 import numpy as np
 import numpy.linalg as la
-import matplotlib.pyplot as plt
-from matplotlib import cm as cm
 import seaborn as sns
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn import metrics
-
-from django.shortcuts import render
-from django.template import loader
-
-# Create your views here.
-from django.http import HttpResponse, Http404, request
-from django.views.decorators.csrf import csrf_exempt
 
 from .models import Test, StockInfo, FinancialProduct, StructuredFinancialInvestment
 from .models import Users, UserClicks, UserSaves
@@ -28,23 +15,30 @@ Global
 c0 = 0
 c1 = 0
 
-def reg(Stock_Market, New_Year, New_Month, New_Day):
-    df = pd.DataFrame(Stock_Market, columns=['Year', 'Month', 'Day', 'Price'])
 
-    X = df[['Year', 'Month', 'Day']]
-    Y = df['Price']
+def reg(price_arr, year_arr, seach_year):
+    # df = pd.DataFrame(Stock_Market, columns=['Year', 'Month', 'Day', 'Price'])
+
+    # X = df[['Year', 'Month', 'Day']]
+    # Y = df['Price']
 
     # with sklearn
     regr = linear_model.LinearRegression()
-    regr.fit(X, Y)
+    year_arr = year_arr.reshape(-1, 1)
+    regr.fit(year_arr, price_arr)
 
-    print('Intercept: \n', regr.intercept_)
-    print('Coefficients: \n', regr.coef_)
+    # print('Intercept: \n', regr.intercept_)
+    # print('Coefficients: \n', regr.coef_)
 
-    x = New_Year
-    y = New_Month
-    z = New_Day
-    print('Predicted Stock Index Price: \n', regr.predict([[x, y, z]]))
+    # x = New_Year
+    # y = New_Month
+    # z = New_Day
+    # print('Predicted Stock Index Price: \n', regr.predict([[x, y, z]]))
+    p = float(regr.intercept_) + float(seach_year) * float(regr.coef_)
+    if regr.coef_ > 0:
+        return ("The second model predicts the stock price to be" + str(p) + ". The stock is potentially good, buy it")
+    if regr.coef_ <= 0:
+        return ("The second model predicts the stock price to be" + str(p) + ". The stock is potentially bad, don't buy it")
 
 
 
@@ -78,10 +72,10 @@ def price_prediction_model_via_linear_least_square(price_arr, year_arr, seach_ye
     # subset = df[df['symbol'] == "AFL"]
     # AFL_price = np.array(subset['open'])
 
-    #year1 = np.array([2005, 2006, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015])
-    #price1 = np.array([12, 41, 63, 72, 78, 80, 83, 88, 84, 90])
+    # year1 = np.array([2005, 2006, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015])
+    # price1 = np.array([12, 41, 63, 72, 78, 80, 83, 88, 84, 90])
 
-    #c1, c0 = la.lstsq(np.vstack([year1, np.ones(len(year1))]).T, price1)[0]
+    # c1, c0 = la.lstsq(np.vstack([year1, np.ones(len(year1))]).T, price1)[0]
 
     c1, c0 = la.lstsq(np.vstack([year_arr, np.ones(len(year_arr))]).T, price_arr)[0]
     #
@@ -90,14 +84,12 @@ def price_prediction_model_via_linear_least_square(price_arr, year_arr, seach_ye
     #
     return c1 * int(seach_year) + c0
 
+
 def searchFP(request):
     searchfp = request.POST.get('search_fp')
 
     for p in FinancialProduct.objects.raw('SELECT * FROM app_financialproduct where product_name = %s', [searchfp]):
         tmp = p
-
-
-
 
 
 def main():

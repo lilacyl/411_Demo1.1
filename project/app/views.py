@@ -151,11 +151,10 @@ def searchStockId(request):
         flag = False
         tmp = p
 
-    click = UserClicks(user_id=current_user, company=p.company_name)
-    click.save(using='mongo')
-
     if flag == True:
         return HttpResponse("The name is not found in data base.")
+    click = UserClicks(user_id=current_user, company=tmp.company_name)
+    click.save(using='mongo')
 
     return HttpResponse(tmp.stock_id)
 
@@ -179,30 +178,32 @@ def searchStockPrice(request):
 
 
 def searchStockIdViaSFI(request):
+
     if request.method == 'POST' and request.POST:
         searchw = request.POST.get('search_StockIdViaSFI')
 
         with connection.cursor() as cursor:
             cursor.execute(
-                'select * from app_stockinfo sto join app_structuredfinancialinvestment str on str.stock_id_id=sto.stock_id where sto.stock_id = %s',
+                'select * from app_stockinfo sto join app_structuredfinancialinvestment str on str.stock_id_id=sto.id where sto.stock_id = %s',
                 [searchw])
             results = cursor.fetchall()
 
-        # 'select * from app_financialproduct f join app_structuredfinancialinvestment s on f.fp_id=s.SFI_id where s.SFI_id = %s', [
-        #     searchw])
+    if results == " ":
+        return HttpResponse("Stock id not in data base")
+    company_name = results[len(results) - 1][2]
+    ret = "Company_name: " + str(results[len(results) - 1][2]) + ",  Price: " + str(
+        results[len(results) - 1][3]) + ",  Date: " + str(
+        results[len(results) - 1][4]) + ",  Knock in price: " + str(
+        results[len(results) - 1][7]) + ", knock out price: " + str(
+        results[len(results) - 1][8]) + ",  put strike price: " + str(results[len(results) - 1][9])
 
-        # template = loader.get_template('.html')
-        # context = {
-        #     'jjj': results[0][0],
-        #     'jjj': results[0][1]
-        # }
+    click = UserClicks(user_id=current_user, company=company_name)
+    click.save(using='mongo')
 
-        company_name = results[0][2]
+    return HttpResponse(ret)
 
-        click = UserClicks(user_id=current_user, company=company_name)
-        click.save(using='mongo')
 
-    return HttpResponse(results)
+
 
 
 # delete
@@ -396,7 +397,7 @@ def run_add_user(request):
     view_SFI = "<a href='http://127.0.0.1:8000/viewSFI/'>SFI page</a>"
     view_saved = "<a href='http://127.0.0.1:8000/mySaves/'>My Saved companies Page</a>"
     log_out = "<a href='http://127.0.0.1:8000/logout/'>Log Out</a>"
-    return render("user_login.html", {"view_stock": view_stock, "view_FP": view_FP,
+    return render(request, "user_login.html", {"view_stock": view_stock, "view_FP": view_FP,
                                       "home_page": home_page, "view_SFI": view_SFI,
                                       "view_saved": view_saved, "log_out": log_out})
 
@@ -467,7 +468,29 @@ Advance function 1
 """
 
 
+#def ad1(request):
+
+    #price_arr = np.empty(0)
+    #year_arr = np.empty(0)
+    #flag = True
+    #seach_year = request.POST.get('seach_year')
+    #seach_company_name = request.POST.get('seach_company_name')
+
+    #for p in StockInfo.objects.raw('SELECT * FROM app_stockinfo where company_name = %s', [seach_company_name]):
+    #    flag = False
+    #    price_arr = np.append(price_arr, float(p.price))
+    #    year_arr = np.append(year_arr, int(p.date[:3]))
+
+    #if flag == True:
+    #    return HttpResponse("The date is not found in data base.")
+    #print("thisdbflrbafafe")
+    #print(type(p.price))
+    #result = adv1.price_prediction_model_via_linear_least_square(price_arr, year_arr, seach_year)
+
+    #return HttpResponse(result)
+
 def ad1(request):
+    tuning_num = 10
     price_arr = np.empty(0)
     year_arr = np.empty(0)
     flag = True
@@ -483,8 +506,11 @@ def ad1(request):
         return HttpResponse("The date is not found in data base.")
     print("thisdbflrbafafe")
     print(type(p.price))
-    result = adv1.price_prediction_model_via_linear_least_square(price_arr, year_arr, seach_year)
-    return HttpResponse(result)
+    result1 = adv1.price_prediction_model_via_linear_least_square(price_arr, year_arr, seach_year)
+    result1 = result1 / tuning_num
+    result2 = adv1.reg(price_arr, year_arr, seach_year)
+    res = "The first model predicts the stock price to be "+ str(result1) + " in " + seach_year +". " + str(result2)
+    return HttpResponse(res)
 
 
 def ad1_page(request):
