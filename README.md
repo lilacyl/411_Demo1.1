@@ -1,7 +1,7 @@
-Our project is in the project folder.
-Group Members: 
-Songyuan Wang sw20@illinois.edu;
-Xinyang Xu xinyang8@illinois.edu;
-Carol Song chens3@illinois.edu;
-Lilac Lai yinmeng2@illinois.edu;
+Our project is in the project folder.<br />
+Group Members: <br />
+Songyuan Wang sw20@illinois.edu;<br />
+Xinyang Xu xinyang8@illinois.edu;<br />
+Carol Song chens3@illinois.edu;<br />
+Lilac Lai yinmeng2@illinois.edu;<br />
 More details about our team: https://wiki.illinois.edu/wiki/display/CS411AAFA20/Team+Xue+Hua+Piao+Piao
